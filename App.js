@@ -1,114 +1,70 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import React, { Component } from 'react';
+import { View, Dimensions } from 'react-native';
+import { OTSession, OTPublisher, OTSubscriber } from 'opentok-react-native';
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
-import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+class App extends Component {
+  constructor(props) {
+    super(props);
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+    this.state = {
+     
+      subscriberWidth: 100,
+      subscriberHeight: 100,
+      
+    };
+    this.apiKey = "47228604";
+    this.sessionId =
+      "1_MX40NzIyODYwNH5-MTYyMDkxNTI1MTkxNX5wTnhHT1dsMnVvL0c4YkhNbG9TUHU3UjJ-fg";
+    this.token =
+      "T1==cGFydG5lcl9pZD00NzIyODYwNCZzaWc9ZTBjOGUxNTVjOGU4NzRiNmRhMmExMzgwOWY4NmVkNmNiNzllNDc2ZDpzZXNzaW9uX2lkPTFfTVg0ME56SXlPRFl3Tkg1LU1UWXlNRGt4TlRJMU1Ua3hOWDV3VG5oSFQxZHNNblZ2TDBjNFlraE5iRzlUVUhVM1VqSi1mZyZjcmVhdGVfdGltZT0xNjIwOTE1MzExJm5vbmNlPTAuODE2NTgyNzQzMjE4ODUxNSZyb2xlPW1vZGVyYXRvciZleHBpcmVfdGltZT0xNjIzNTA3MzEwJmluaXRpYWxfbGF5b3V0X2NsYXNzX2xpc3Q9";
+   }
 
-const App: () => React$Node = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  );
-};
 
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
+
+
+
+
+
+
+   
+  render() {
+    return (
+      <View style={{ flex: 1 }}>
+        <OTSession apiKey={this.apiKey} sessionId={this.sessionId} token={this.token}>
+          <OTPublisher style={{
+            
+            
+            
+            width: 200, height: 200 ,
+            borderColor: "#BAC6CD",
+            backgroundColor: "#FFF",
+            borderWidth: 1,
+            borderRadius: 15,
+            overflow: "hidden",
+            padding: 5,
+            margin: 20,
+            justifyContent: "flex-end",
+            position: "absolute",
+            alignSelf: "stretch",
+            bottom : 0,
+            right :20,
+            zIndex : 10
+            
+            
+            }} />
+          <OTSubscriber  style={{
+                // width: "" + this.state.subscriberWidth + "%",
+                // height: "" + this.state.subscriberHeight + "%",
+                width: windowWidth,
+                height: windowHeight,
+                alignSelf: "stretch", insertMode: "append",
+              }}/>
+        </OTSession>
+      </View>
+    );
+  }
+}
 
 export default App;
