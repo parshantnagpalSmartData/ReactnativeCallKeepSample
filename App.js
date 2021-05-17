@@ -19,12 +19,17 @@ class App extends Component {
       "1_MX40NzIyODYwNH5-MTYyMDkxNTI1MTkxNX5wTnhHT1dsMnVvL0c4YkhNbG9TUHU3UjJ-fg";
     this.token =
       "T1==cGFydG5lcl9pZD00NzIyODYwNCZzaWc9ZTBjOGUxNTVjOGU4NzRiNmRhMmExMzgwOWY4NmVkNmNiNzllNDc2ZDpzZXNzaW9uX2lkPTFfTVg0ME56SXlPRFl3Tkg1LU1UWXlNRGt4TlRJMU1Ua3hOWDV3VG5oSFQxZHNNblZ2TDBjNFlraE5iRzlUVUhVM1VqSi1mZyZjcmVhdGVfdGltZT0xNjIwOTE1MzExJm5vbmNlPTAuODE2NTgyNzQzMjE4ODUxNSZyb2xlPW1vZGVyYXRvciZleHBpcmVfdGltZT0xNjIzNTA3MzEwJmluaXRpYWxfbGF5b3V0X2NsYXNzX2xpc3Q9";
-   }
-
-
-
-
-
+      this.sessionOptions = {
+        // connectionEventsSuppressed: true, // default is false
+        // androidZOrder: 'onTop', // Android only - valid options are 'mediaOverlay' or 'onTop'
+        androidOnTop: 'publisher',  // Android only - valid options are 'publisher' or 'subscriber'
+        // useTextureViews: true,  // Android only - default is false
+        // isCamera2Capable: false, // Android only - default is false
+        // ipWhitelist: false, // https://tokbox.com/developer/sdks/js/reference/OT.html#initSession - ipWhitelist
+        // enableStereoOutput: true // Enable stereo output, default is false
+      };
+    }
+   
 
 
 
@@ -32,7 +37,7 @@ class App extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <OTSession apiKey={this.apiKey} sessionId={this.sessionId} token={this.token}>
+        <OTSession apiKey={this.apiKey} sessionId={this.sessionId} token={this.token} options={this.sessionOptions}>
           <OTPublisher style={{
             
             
@@ -45,21 +50,23 @@ class App extends Component {
             overflow: "hidden",
             padding: 5,
             margin: 20,
-            justifyContent: "flex-end",
+            // justifyContent: "flex-end",
             position: "absolute",
             alignSelf: "stretch",
-            bottom : 0,
+            bottom : 100,
             right :20,
             zIndex : 10
-            
-            
+
             }} />
           <OTSubscriber  style={{
-                // width: "" + this.state.subscriberWidth + "%",
-                // height: "" + this.state.subscriberHeight + "%",
-                width: windowWidth,
-                height: windowHeight,
-                alignSelf: "stretch", insertMode: "append",
+                width: "100%",
+                height: "100%",
+                // width: windowWidth,
+                // height: windowHeight,
+                alignSelf: "stretch", 
+                insertMode: "append",
+                        // justifyContent: "flex-end",
+        
               }}/>
         </OTSession>
       </View>
