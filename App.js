@@ -261,6 +261,21 @@ class App extends Component {
       this.setState({ subscriberCount: stream });
       this.setSubscriberArea(stream);
     }
+
+    removeStream() {
+      if (this.state.subscriberCount > 1) {
+        var stream = this.state.subscriberCount - 1;
+        this.setState({ subscriberCount: stream });
+        this.setSubscriberArea(stream);
+      } else {
+        this.setState({
+          isConnected: false,
+        });
+        this._goBack();
+      }
+    }
+
+
     _switchCamera = () =>{
       try {
         console.log(
