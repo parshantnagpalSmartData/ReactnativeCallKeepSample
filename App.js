@@ -29,7 +29,76 @@ class App extends Component {
       publisher: "",
       audioTrack: true,
       publishAudio: true,
+      publishVideo:true,
       streamProperties: {},
+      userInfo: "",
+      isDialogueVisible: false,
+      isAddNewUserDialogueVisible: false,
+      isListUserDialogueVisible: false,
+      isLoading: false,
+
+      userPic: "",
+      name: "",
+
+      channelDetailsFromWebRtc: null,
+      setUserAsBusyDataRes: "",
+
+      streamProperties: {},
+      isConnected: false,
+
+      subscribersArr: [],
+      sessionConnectionId: "",
+      streamConnectionId: "",
+
+      forceDisconnectDataRes: "",
+      getSessionTokenDataRes: "",
+      sendJoinCallApiDataRes: "",
+
+      //publisher
+      publisherProperties: {
+        publishAudio: true,
+        publishVideo: true,
+        cameraPosition: "front",
+      },
+      actionType: "camera",
+      publisherEventStreamId: "",
+      publisherCameraPosition: "front",
+      publisher: "",
+
+      callDisconnectApi: false,
+      disconnectSession: false,
+
+      //list
+      dataList: [
+        {
+          firstName: "adasdasd",
+          lastName: "asdasd",
+          avatar: "",
+          isAvailable: true,
+        },
+      ],
+
+      firstName: "",
+      lastName: "",
+      emailId: "",
+
+      audioTrack: true,
+      publishAudio: true,
+
+      groupCallIsConnect: false,
+
+      subscriberWidth: 100,
+      subscriberHeight: 100,
+      subscriberCount: 0,
+
+      // For getting User Channel Information
+      getChatChannelInfoDataRes: null,
+      doctorID: "",
+      gotResponseOnce: false,
+
+      // For creating new chat channel
+      createMessageChannelDataRes: null,
+
     };
     this.apiKey = "47228604";
     this.sessionId =
@@ -46,10 +115,152 @@ class App extends Component {
         // enableStereoOutput: true // Enable stereo output, default is false
         
       };
+      // this.sessionOptions = {
+      //   connectionEventsSuppressed: true, // default is false
+      //   androidZOrder: "onTop", // Android only - valid options are 'mediaOverlay' or 'onTop'
+      //   androidOnTop: "publisher", // Android only - valid options are 'publisher' or 'subscriber'
+      //   useTextureViews: true, // Android only - default is false
+      //   isCamera2Capable: false, // Android only - default is false
+      //   ipWhitelist: false, // https://tokbox.com/developer/sdks/js/reference/OT.html#initSession - ipWhitelist
+      // };
+   //Session
+   this.otSessionRef = React.createRef();
+   this.otPublisherRef = React.createRef();
+   this.otSubscriberRef = React.createRef();
+   this.sessionEventHandlers = {
+     streamCreated: (event) => {
+       console.log("SWAPVC >> Stream created: ", JSON.stringify(event));
+       try {
+         const streamProperties = {
+           ...this.state.streamProperties,
+           [event.streamId]: {
+             subscribeToAudio: true,
+             subscribeToVideo: true,
+             insertMode: "append",
+           },
+         };
+
+         console.log("SWAPVC >>streamPropertiesstreamProperties: ", streamProperties);
+         this.setState({ streamProperties });
+
+         this.addStream();
+
+         //adding data
+        //  event.connection.data = this.state.userInfo._id;
+        //  this.state.streamConnectionId = event.streamId;
+         this.setState({ streamConnectionId: event.streamId });
+       } catch (e) {
+         console.log("SWAPVC >> Stream created error: " + e);
+       }
+     },
+     streamDestroyed: (event) => {
+       console.log("SWAPVC >> Stream destroyed: ", JSON.stringify(event));
+       this.removeStream();
+     },
+     sessionConnected: (event) => {
+       console.log("SWAPVC >> session connected: ", JSON.stringify(event));
+       this.setState({
+         isConnected: true,
+       });
+     },
+     connectionCreated: (event) => {
+       console.log("SWAPVC >> connection created", JSON.stringify(event));
+     },
+     connectionDestroyed: (event) => {
+       console.log("SWAPVC >> connection destroyed Props", props);
+       console.log("SWAPVC >> connection destroyed", JSON.stringify(event));
+       this._goBack();
+     },
+     sessionDisconnected: (event) => {
+       console.log("SWAPVC >> Client disConnect to a session");
+       this.setState({
+         isConnected: false,
+       });
+       this._goBack();
+     },
+     sessionReconnected: (event) => {
+       console.log("SWAPVC >> session reconnected");
+     },
+   };
+
+  //  this.sessionOptions = {
+  //    connectionEventsSuppressed: true, // default is false
+  //    androidZOrder: "onTop", // Android only - valid options are 'mediaOverlay' or 'onTop'
+  //    androidOnTop: "publisher", // Android only - valid options are 'publisher' or 'subscriber'
+  //    useTextureViews: true, // Android only - default is false
+  //    isCamera2Capable: false, // Android only - default is false
+  //    ipWhitelist: false, // https://tokbox.com/developer/sdks/js/reference/OT.html#initSession - ipWhitelist
+  //  };
+
+   //subscriber
+   this.subscriberProperties = {
+     subscribeToAudio: true,
+     subscribeToVideo: true,
+   };
+
+   this.subscriberEventHandlers = {
+     error: (error) => {
+       console.log(
+         "SWAPVC >> There was an error with the subscriber: ",
+         error
+       );
+     },
+   };
+
+   //Publisher
+   this.publisherEventHandlers = {
+     streamCreated: (event) => {
+       console.log(
+         "SWAPVC >> Publisher stream created: ",
+         JSON.stringify(event)
+       );
+
+       try {
+         const publisherProperties = {
+           ...this.state.publisherProperties,
+           [event.streamId]: {
+             publishAudio: true,
+             publishVideo: true,
+             cameraPosition: "front",
+           },
+         };
+         this.setState({ publisherProperties });
+         this.setState({ publisherEventStreamId: event.streamId });
+         //adding data
+         this.setState({ sessionConnectionId: event.connection });
+       } catch (e) {
+         console.log("SWAPVC >> Publisher Stream created error: " + e);
+       }
+     },
+     streamDestroyed: (event) => {
+       console.log(
+         "SWAPVC >> Publisher stream destroyed: ",
+         JSON.stringify(event)
+       );
+     },
+   };
     }
+
+    
+  setSubscriberArea=(stream) =>{
+    if (stream === 1) {
+      this.setState({ subscriberWidth: 100, subscriberHeight: 100 });
+    } else if (stream === 2) {
+      this.setState({ subscriberWidth: 100, subscriberHeight: 50 });
+    } else if (stream === 3 || stream === 4) {
+      this.setState({ subscriberWidth: 50, subscriberHeight: 50 });
+    } else {
+      this.setState({ subscriberWidth: 20, subscriberHeight: 20 });
+    }
+  }
+
    
 
-
+    addStream() {
+      var stream = this.state.subscriberCount + 1;
+      this.setState({ subscriberCount: stream });
+      this.setSubscriberArea(stream);
+    }
     _switchCamera = () =>{
       try {
         console.log(
@@ -108,7 +319,38 @@ class App extends Component {
     }
   }
 
-  _callCut() {
+  _switchVideo() {
+    try {
+      var audPos = !this.state.publishVideo;
+      this.setState({
+        publishVideo: audPos, actionType: 'mic'
+      });
+
+      let publisherProperties = {...this.state.publisherProperties}
+      publisherProperties.publishVideo = audPos;
+      // const publisherProperties = {
+      //   ...this.state.publisherProperties, ...this.state.actionType,
+      //   [this.state.publisherEventStreamId]: {
+      //     publishAudio: audPos,
+      //     publishVideo: true,
+      //     cameraPosition: this.state.publisherCameraPosition,
+      //   },
+      // };
+      this.setState({ publisherProperties });
+      try {
+        OT.publishVideo(this.state.publisherEventStreamId, audPos);
+      } catch (ex) { }
+    } catch (e) {
+      console.log("SWAPVC >> _switchMic Err = ", e);
+    }
+  }
+  _goBack() {
+    // this.props.navigation.goBack();
+  }
+
+  
+
+  _callCut() {  
     Alert.alert(
       "App Name ",
       "DISCONNECT_CALL",
@@ -125,7 +367,7 @@ class App extends Component {
           },
         },
         {
-          text: translate("NO"),
+          text: "NO",
           onPress: () => { },
         },
       ],
@@ -133,7 +375,7 @@ class App extends Component {
     );
   }
 
-  _switchSound() {
+  _switchSound=()=> {
     try {
       var audPos = !this.state.audioTrack;
       this.setState({
@@ -141,9 +383,12 @@ class App extends Component {
       });
       let streamProperties = {...this.state.streamProperties}
 
-      
-      streamProperties.subscribeToAudio = audPos;
-      this.setState({streamProperties})
+      console.log("streamPropertiestreamPropertiess",streamProperties, this.state.streamConnectionId)
+      streamProperties[this.state.streamConnectionId].subscribeToAudio = audPos;
+      this.setState({streamProperties},()=>{
+        console.log("streamPropertiestreamPropertiessstreamPropertiestreamPropertiess",this.state.streamProperties)
+      })
+   
 
       try {
         OT.subscribeToAudio(this.state.streamConnectionId, audPos);
@@ -158,7 +403,10 @@ class App extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <OTSession apiKey={this.apiKey} sessionId={this.sessionId} token={this.token} options={this.sessionOptions}>
+        <OTSession apiKey={this.apiKey} sessionId={this.sessionId} token={this.token} options={this.sessionOptions}
+                    eventHandlers={this.sessionEventHandlers}
+                    ref={this.otSessionRef} 
+        >
           <OTPublisher style={{
             
             
@@ -179,12 +427,17 @@ class App extends Component {
             zIndex : 10
 
             }} 
+            ref={this.otPublisherRef}
             properties={this.state.publisherProperties}
+            actionType={this.state.actionType}
+            eventHandlers={this.publisherEventHandlers}
             
             />
           <OTSubscriber  style={{
-                width: "100%",
-                height: "100%",
+                // width: "100%",
+                // height: "100%",
+                width: "" + this.state.subscriberWidth + "%",
+                height: "" + this.state.subscriberHeight + "%",
                 // width: windowWidth,
                 // height: windowHeight,
                 alignSelf: "stretch", 
@@ -192,6 +445,9 @@ class App extends Component {
     
         
               }}
+              ref={this.otSubscriberRef}
+              properties={this.subscriberProperties}
+              eventHandlers={this.subscriberEventHandlers}
               streamProperties={this.state.streamProperties}
               
               />
@@ -206,13 +462,15 @@ class App extends Component {
             bottom: 0,
             backgroundColor: "rgba(0,0,0,0.1)",
             height: 28,
+            right : 0
           }}
         >
           <Image
             source={bottomImage}
-            containerStyle={{
-              width: 100,
-              height: 15,
+            style={{
+              width: windowWidth,
+              height: windowHeight*.20,
+
               backgroundColor: "transparent",
             }}
           />
@@ -289,6 +547,19 @@ class App extends Component {
           name={this.state.publishAudio ? "ios-mic" : "ios-mic-off"}  color="#0074FF" /> 
         </TouchableOpacity>
 
+
+
+
+
+
+
+
+
+
+
+
+        
+
         <TouchableOpacity
           style={{
             position: "absolute",
@@ -318,6 +589,43 @@ class App extends Component {
            name={this.state.audioTrack ? "sound" : "sound-mute"}  color="#0074FF" /> 
         </TouchableOpacity>
         {/* sound-mute */}
+
+
+
+
+        <TouchableOpacity
+          style={{
+            position: "absolute",
+            borderColor:  "white",
+            backgroundColor:  "white",
+            borderWidth: 1, borderRadius: 15,
+            marginBottom: 20, width: 50, height: 50,
+            bottom: 80, marginLeft: 6,
+            alignSelf: "flex-start",
+          }}
+          onPress={() => this._switchVideo()}>
+          {/* <Icon
+            style={{
+              flex: 0.1,
+              opacity: 1,
+            }}
+            containerStyle={{
+              justifyContent: "center",
+              alignContent: "center",
+              alignSelf: "center",
+              alignItems: "center",
+              marginTop: 2,
+            }}
+            name={this.state.publishAudio ? "ios-mic" : "ios-mic-off"}
+            type="ionicon"
+            size={40}
+            color="#0074FF" */}
+          {/* /> */}
+          <Icon 
+           size={40}
+          name={this.state.publishVideo ? "videocam" : "videocam-outline"}  color="#0074FF" /> 
+        </TouchableOpacity>
+
 
         <TouchableOpacity
           style={{
