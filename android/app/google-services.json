@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "60645963084",
+    "project_id": "opentokgroupvideocall",
+    "storage_bucket": "opentokgroupvideocall.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:60645963084:android:512021731b69aa8b8ecbe9",
+        "android_client_info": {
+          "package_name": "com.opentokgroupvideocallreactnative"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "60645963084-frmrnfo1d90fkl9lbub2p0a9c0ercp7l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1BiXcRsO_7qrDY2Ny-9qQBBtdoLx_uMU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "60645963084-frmrnfo1d90fkl9lbub2p0a9c0ercp7l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

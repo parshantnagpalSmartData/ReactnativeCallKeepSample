@@ -56,6 +56,7 @@
 		32DBD7715EAB09CD9F28966C /* Pods-OpenTokGroupVideoCallReactNative-OpenTokGroupVideoCallReactNativeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenTokGroupVideoCallReactNative-OpenTokGroupVideoCallReactNativeTests.release.xcconfig"; path = "Target Support Files/Pods-OpenTokGroupVideoCallReactNative-OpenTokGroupVideoCallReactNativeTests/Pods-OpenTokGroupVideoCallReactNative-OpenTokGroupVideoCallReactNativeTests.release.xcconfig"; sourceTree = "<group>"; };
 		393E7F6FD22CE19E3E941D6B /* libPods-OpenTokGroupVideoCallReactNative.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OpenTokGroupVideoCallReactNative.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		406622D940F8E6F248F215E2 /* Pods-OpenTokGroupVideoCallReactNative.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenTokGroupVideoCallReactNative.release.xcconfig"; path = "Target Support Files/Pods-OpenTokGroupVideoCallReactNative/Pods-OpenTokGroupVideoCallReactNative.release.xcconfig"; sourceTree = "<group>"; };
+		66969B79265546A1003B9C60 /* OpenTokGroupVideoCallReactNative.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = OpenTokGroupVideoCallReactNative.entitlements; path = OpenTokGroupVideoCallReactNative/OpenTokGroupVideoCallReactNative.entitlements; sourceTree = "<group>"; };
 		66ABDEAC264D426E0012E369 /* OpenTokGroupVideoCallReactNative-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OpenTokGroupVideoCallReactNative-Bridging-Header.h"; sourceTree = "<group>"; };
 		66ABDEAD264D426F0012E369 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		66FAA21D26529B86006970F5 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Octicons.ttf; path = "../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
@@ -144,6 +145,7 @@
 		13B07FAE1A68108700A75B9A /* OpenTokGroupVideoCallReactNative */ = {
 			isa = PBXGroup;
 			children = (
+				66969B79265546A1003B9C60 /* OpenTokGroupVideoCallReactNative.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -340,7 +342,9 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = XJK563JZ4M;
 						LastSwiftMigration = 1230;
+						ProvisioningStyle = Manual;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -804,7 +808,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = OpenTokGroupVideoCallReactNative/OpenTokGroupVideoCallReactNative.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XJK563JZ4M;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = OpenTokGroupVideoCallReactNative/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -813,8 +821,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hippatalksVideocall;
 				PRODUCT_NAME = OpenTokGroupVideoCallReactNative;
+				PROVISIONING_PROFILE_SPECIFIER = HippaTalksVideoCallAdhoc;
 				SWIFT_OBJC_BRIDGING_HEADER = "OpenTokGroupVideoCallReactNative-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -828,7 +837,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = OpenTokGroupVideoCallReactNative/OpenTokGroupVideoCallReactNative.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XJK563JZ4M;
 				INFOPLIST_FILE = OpenTokGroupVideoCallReactNative/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -836,8 +849,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hippatalksVideocall;
 				PRODUCT_NAME = OpenTokGroupVideoCallReactNative;
+				PROVISIONING_PROFILE_SPECIFIER = HippaTalksVideoCallAdhoc;
 				SWIFT_OBJC_BRIDGING_HEADER = "OpenTokGroupVideoCallReactNative-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

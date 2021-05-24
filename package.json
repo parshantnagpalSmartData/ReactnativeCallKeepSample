@@ -7,13 +7,18 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "android-build": "watchman watch-del-all && cd android && ./gradlew --stop && ./gradlew clean && ./gradlew assembleRelease"
   },
   "dependencies": {
+    "@react-native-firebase/app": "^12.0.0",
+    "@react-native-firebase/messaging": "^12.0.0",
     "opentok-react-native": "^0.17.0",
     "react": "16.13.1",
     "react-native": "0.63.4",
-    "react-native-vector-icons": "^8.1.0"
+    "react-native-callkeep": "^4.2.0",
+    "react-native-vector-icons": "^8.1.0",
+    "react-native-voip-push-notification": "^3.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.14.2",
